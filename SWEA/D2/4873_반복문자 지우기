@@ -1,0 +1,61 @@
+package Stack2_0808;
+
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.util.Scanner;
+
+//로직 정리
+//재귀로 풀기
+//for문을 돌면서 앞과 뒤가 같은지 확인
+//-> 같으면 -> 그 뒤도 계속 확인
+//-> 다르면 앞 = 뒤 + 1로 두고 반복하기
+
+public class swea_4873_반복문자지우기 {
+	public static void main(String[] args) throws FileNotFoundException {
+		System.setIn(new FileInputStream("src/input.txt"));
+
+		Scanner sc = new Scanner(System.in);
+
+		int T = sc.nextInt();
+
+		for (int tc = 1; tc <= T; tc++) {
+			String str = sc.next();
+
+			String result = repeat(str);
+
+			System.out.println("#" + tc + " " + result.length());
+		}
+	}
+
+	// 스택오버플로우 발생
+	private static String repeat(String str) {
+		//마지막에 있는 수를 남기기 위해서 str 뒤에 의미없는 문자 *를 붙이기 -> 이 부분 중요. 여기가 없으면 마지막 문자는 버려진다.
+		str = str + "*";
+		
+		StringBuilder newStrbuilder = new StringBuilder();
+		boolean isRepeat = false;
+		for (int i = 0; i < str.length() - 1; i++) {
+			char ch = str.charAt(i);
+			char next = str.charAt(i + 1);
+			
+			if (ch != next) {
+				newStrbuilder.append(ch);
+
+			} else {
+				i += 1;
+				isRepeat = true;
+			}
+		}
+		
+
+		String newStr = newStrbuilder.toString();// StringBuilder를 String으로 전환하기 위해서는 .toString() 메서드를 사용하면 된다./
+		
+		// base case
+		if (isRepeat == false) { // 이제는 연속되는 숫자가 없다.
+			return newStr;
+		} else {
+			return repeat(newStr);
+		}
+
+	}
+}
