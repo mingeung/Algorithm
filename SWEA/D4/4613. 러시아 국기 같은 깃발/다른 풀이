@@ -1,0 +1,71 @@
+# 누적합과 투포인터
+
+```java
+import java.util.*;
+
+public class 러시아국기 {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int T = sc.nextInt();
+
+        for (int tc = 1; tc <= T; tc++) {
+            int N = sc.nextInt();
+            int M = sc.nextInt();
+            char[][] arr = new char[N][M];
+
+            for (int i = 0; i < N; i++) {
+                arr[i] = sc.next().toCharArray();
+            }
+
+            int[] costW = new int[N];
+            int[] costB = new int[N];
+            int[] costR = new int[N];
+
+            // 1. 각 행별 색칠 비용 계산
+            for (int i = 0; i < N; i++) {
+                int wCnt = 0, bCnt = 0, rCnt = 0;
+                for (int j = 0; j < M; j++) {
+                    char c = arr[i][j];
+                    if (c != 'W') wCnt++;
+                    if (c != 'B') bCnt++;
+                    if (c != 'R') rCnt++;
+                }
+                costW[i] = wCnt;
+                costB[i] = bCnt;
+                costR[i] = rCnt;
+            }
+
+            // 2. 누적합 계산
+            int[] sumW = new int[N];
+            int[] sumB = new int[N];
+            int[] sumR = new int[N];
+
+            sumW[0] = costW[0];
+            sumB[0] = costB[0];
+            sumR[0] = costR[0];
+
+            for (int i = 1; i < N; i++) {
+                sumW[i] = sumW[i - 1] + costW[i];
+                sumB[i] = sumB[i - 1] + costB[i];
+                sumR[i] = sumR[i - 1] + costR[i];
+            }
+
+            // 3. 투 포인터/2중 루프 탐색
+            int minCost = Integer.MAX_VALUE;
+            for (int wEnd = 0; wEnd <= N - 3; wEnd++) { // W 영역 끝
+                for (int bEnd = wEnd + 1; bEnd <= N - 2; bEnd++) { // B 영역 끝
+                    int costWhite = sumW[wEnd];
+                    int costBlue = sumB[bEnd] - sumB[wEnd];
+                    int costRed = sumR[N - 1] - sumR[bEnd];
+
+                    int total = costWhite + costBlue + costRed;
+                    minCost = Math.min(minCost, total);
+                }
+            }
+
+            System.out.println("#" + tc + " " + minCost);
+        }
+    }
+}
+
+```
