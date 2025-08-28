@@ -64,10 +64,10 @@ public class Solution {
 
 			long minW = 0;
 			//edgeCount는 왜 필요한거지 ?
-			int edgeCount = 0;
+
 			
 			// 큐에서 하나씩 빼서 값 확인
-			while (!pq.isEmpty() && edgeCount < V - 1) {
+			while (!pq.isEmpty() ) {
 				Edge cur = pq.poll();
 
 				// 두 개의 부모가 같은지 확인
@@ -78,7 +78,7 @@ public class Solution {
 				if (rootU != rootV) {
 					minW += cur.w;
 					union(parent, rootU, rootV); // 합칠 때 그냥 node가 아니라 부모 node를 넘겨줘야 함.
-					edgeCount++;
+
 				}
 
 				// 부모가 같다고 해서 break문을 넣지 않는다. 다음 큐를 돌아야 하기 때문에
@@ -90,14 +90,12 @@ public class Solution {
 
 	// 두 트리를 합치기
 	public static void union(int[] parent, int rootU, int rootV) {
-//		if (rootU > rootV) {
-//			parent[rootV] = rootU;
-//		} else {
-//			parent[rootU] = rootV;
-//		}
-		if (rootU != rootV) {
+		if (rootU > rootV) {
 			parent[rootV] = rootU;
+		} else {
+			parent[rootU] = rootV;
 		}
+
 	}
 
 	private static int find(int[] parent, int x) {
