@@ -60,7 +60,6 @@ public class Solution {
 						}
 					}
 				}
-
 			}
 			int minPath = INF;
 			// 출력값을 뭘로 해야할까?
@@ -68,13 +67,10 @@ public class Solution {
 				int sumPath = 0;
 				for (int j = 0; j < N; j++) {
 					sumPath += dist[i][j];
-					
 				}
 				minPath = Math.min(sumPath, minPath);
 			}
 			System.out.println("#" + tc + " " + minPath);
-
 		}
-
 	}
 }
